@@ -1,0 +1,15 @@
+/* ✅ Filament v4 uses @filament/* namespace imports */
+@import '@filament/support/dist/index.css';
+@import '@filament/notifications/dist/index.css';
+@import '@filament/forms/dist/index.css';
+@import '@filament/tables/dist/index.css';
+@import '@filament/widgets/dist/index.css';
+
+/* 🎨 Your custom sidebar shadow */
+.fi-sidebar {
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark .fi-sidebar {
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
+}
