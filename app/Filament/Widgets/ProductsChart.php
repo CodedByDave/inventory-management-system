@@ -10,10 +10,11 @@ class ProductsChart extends ChartWidget
 {
     protected ?string $heading = 'Products Supply';
 
-    public function getColumnSpan(): int|string|array
-    {
-        return 'full';
-    }
+    protected int|string|array $columnSpan = [
+        'default' => 12,
+        'md' => 6,
+        'xl' => 6,
+    ];
 
     protected function getData(): array
     {

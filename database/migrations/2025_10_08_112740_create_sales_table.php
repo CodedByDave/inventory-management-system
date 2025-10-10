@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->integer('quantity');
+            $table->decimal('total_price', 10, 2)->nullable();
+            $table->timestamp('sold_at')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::table('sales', function (Blueprint $table) {
+            $table->dropColumn('sold_at');
+        });
     }
 };
