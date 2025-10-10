@@ -13,28 +13,28 @@ class SaleForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->schema([
-            // 🏷 Product Selection
+            //Product Selection
             Select::make('product_id')
                 ->label('Product')
                 ->options(Product::pluck('name', 'id'))
                 ->searchable()
                 ->required()
-                ->reactive(), // para gumana ang auto compute kapag nagpalit ng product
+                ->reactive(),
 
-            // 🔢 Quantity Input
+            //Quantity Input
             TextInput::make('quantity')
                 ->label('Quantity Sold')
                 ->numeric()
                 ->minValue(1)
                 ->required()
-                ->reactive(), // auto-update total_price when quantity changes
+                ->reactive(),
 
-            // 💰 Total Price (Auto)
+            //Total Price (Auto)
             TextInput::make('total_price')
                 ->label('Total Price (₱)')
                 ->numeric()
                 ->prefix('₱')
-                ->readOnly() // auto-calculated
+                ->readOnly()
                 ->reactive()
                 ->afterStateHydrated(function ($set, $get) {
                     // Recalculate on load (optional)
@@ -49,7 +49,7 @@ class SaleForm
                     return $product ? $product->price * ($get('quantity') ?? 1) : $state;
                 }),
 
-            // 📅 Date of Sale
+            //Date of Sale
             DatePicker::make('sold_at')
                 ->label('Date Sold')
                 ->default(now())
