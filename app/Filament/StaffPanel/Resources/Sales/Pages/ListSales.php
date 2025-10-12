@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Filament\Resources\Sales\Pages;
+namespace App\Filament\StaffPanel\Resources\Sales\Pages;
 
-use App\Filament\Resources\Sales\SaleResource;
+use App\Filament\StaffPanel\Resources\Sales\SalesResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListSales extends ListRecords
 {
-    protected static string $resource = SaleResource::class;
+    protected static string $resource = SalesResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-
+            CreateAction::make(),
         ];
     }
 }

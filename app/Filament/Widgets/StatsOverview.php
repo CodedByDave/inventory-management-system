@@ -3,65 +3,43 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
-use App\Models\Product;
-use App\Models\Brand;
-use App\Models\Sale; // ✅ Import Sale model
+use App\Models\Sale;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends BaseWidget
 {
-    protected ?string $heading = 'Inventory Overview';
+    protected ?string $heading = 'Dashboard Overview';
 
     protected function getStats(): array
     {
-        // 📦 Inventory data
-        $totalProducts = Product::count();
-        $lowStockProducts = Product::where('quantity', '<', 10)->count();
-        $outOfStock = Product::where('quantity', '=', 0)->count();
-        $totalBrands = Brand::count();
+        // 👥 User stats
+        $totalUsers = User::count();
+        $inactiveUsers = User::where('status', 'inactive')->count();
 
-        // 💰 Sales data
-        $totalSalesValue = Sale::sum('total_price'); // total revenue
-        $totalItemsSold = Sale::sum('quantity');     // total sold units
+        // 💰 Sales stats
+        $totalSalesValue = Sale::sum('total_price');
+        $totalItemsSold = Sale::sum('quantity');
 
         return [
-            // 🛒 Total Products
-            Stat::make('Total Products', number_format($totalProducts))
-                ->description('All items available in inventory')
-                ->descriptionIcon('heroicon-o-archive-box')
+            Stat::make('Total Users', number_format($totalUsers))
+                ->description('All registered users')
+                ->descriptionIcon('heroicon-o-users')
                 ->color('primary')
-                ->extraAttributes(['title' => 'Total number of products in the system']),
+                ->extraAttributes(['title' => 'All users in the system']),
 
-            // ⚠️ Low Stock
-            Stat::make('Low Stock Items', number_format($lowStockProducts))
-                ->description('Products below stock threshold')
-                ->descriptionIcon('heroicon-o-exclamation-triangle')
-                ->color('warning')
-                ->extraAttributes(['title' => 'Items with less than 10 remaining']),
-
-            // ❌ Out of Stock
-            Stat::make('Out of Stock', number_format($outOfStock))
-                ->description('Products currently unavailable')
-                ->descriptionIcon('heroicon-o-x-circle')
+            Stat::make('Inactive Users', number_format($inactiveUsers))
+                ->description('Users who are inactive')
+                ->descriptionIcon('heroicon-o-user-minus')
                 ->color('danger')
-                ->extraAttributes(['title' => 'Products that need restocking']),
+                ->extraAttributes(['title' => 'Users with inactive status']),
 
-            // 🏷️ Total Brands
-            Stat::make('Total Brands', number_format($totalBrands))
-                ->description('Registered suppliers and brands')
-                ->descriptionIcon('heroicon-o-tag')
-                ->color('info')
-                ->extraAttributes(['title' => 'Brands linked to product categories']),
-
-            // 💰 Total Sales Value
             Stat::make('Total Sales', '₱' . number_format($totalSalesValue, 2))
                 ->description('Overall revenue from all sales')
                 ->descriptionIcon('heroicon-o-banknotes')
                 ->color('success')
                 ->extraAttributes(['title' => 'Total sales revenue from completed transactions']),
 
-            // 📦 Total Items Sold
             Stat::make('Total Items Sold', number_format($totalItemsSold))
                 ->description('Total quantity of products sold')
                 ->descriptionIcon('heroicon-o-cube')
@@ -70,7 +48,6 @@ class StatsOverview extends BaseWidget
         ];
     }
 
-    // Responsive layout across screen sizes
     protected int|string|array $columnSpan = [
         'default' => 12,
         'md' => 12,

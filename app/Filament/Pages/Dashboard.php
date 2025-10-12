@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\ProductsChart;
+use App\Filament\Widgets\SalesChart;
 use Filament\Pages\Page;
 use BackedEnum;
 use App\Filament\Widgets\StatsOverview;
@@ -19,7 +19,7 @@ class Dashboard extends Page
     {
         return [
             StatsOverview::class,
-            ProductsChart::class,
+            SalesChart::class,
             TopSellingProducts::class,
         ];
     }

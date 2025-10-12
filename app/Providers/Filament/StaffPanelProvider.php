@@ -2,8 +2,10 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\StatsOverview;
+use App\Filament\StaffPanel\Widgets\StatsOverview;
+use App\Filament\StaffPanel\Widgets\StaffSalesChart;
 use App\Filament\Widgets\SalesChart;
+use App\Models\Sale;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -21,15 +23,14 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Support\Facades\Auth;
 
-class AdminPanelProvider extends PanelProvider
+class StaffPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->brandName('Admin Panel')
-            ->path('')
+            ->id('staff') // unique panel ID
+            ->brandName('Staff Panel')
+            ->path('staff')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -37,12 +38,21 @@ class AdminPanelProvider extends PanelProvider
                 StatsOverview::class,
                 SalesChart::class,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(
+                in: app_path('Filament/StaffPanel/Resources'),
+                for: 'App\Filament\StaffPanel\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/StaffPanel/Pages'),
+                for: 'App\Filament\StaffPanel\Pages'
+            )
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(
+                in: app_path('Filament/StaffPanel/Widgets'),
+                for: 'App\Filament\StaffPanel\Widgets'
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -71,10 +81,9 @@ class AdminPanelProvider extends PanelProvider
                         session()->invalidate();
                         session()->regenerateToken();
 
-                        // optional flash message for SweetAlert in login page
                         session()->flash('logout_success', true);
 
-                        return redirect()->route('login'); // 👈 your custom login form
+                        return redirect()->route('login'); // your staff login route
                     }),
             ]);
     }

@@ -44,12 +44,8 @@ class LoginService
         switch ($role) {
             case 'admin':
                 return route('filament.admin.pages.dashboard');
-            case 'manager':
-                return route('filament.manager.pages.dashboard');
             case 'staff':
                 return route('filament.staff.pages.dashboard');
-            case 'finance':
-                return route('filament.finance.pages.dashboard');
             default:
                 return null;
         }

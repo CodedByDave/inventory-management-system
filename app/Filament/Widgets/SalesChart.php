@@ -6,7 +6,7 @@ use Filament\Widgets\ChartWidget;
 use App\Models\Product;
 use Carbon\Carbon;
 
-class ProductsChart extends ChartWidget
+class SalesChart extends ChartWidget
 {
     protected ?string $heading = 'Products Supply';
 

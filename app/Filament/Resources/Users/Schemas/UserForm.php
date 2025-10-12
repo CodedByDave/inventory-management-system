@@ -56,8 +56,7 @@ class UserForm
                 ->label('Role')
                 ->options([
                     'admin' => 'Admin',
-                    'manager' => 'Manager',
-                    'employee' => 'Employee',
+                    'staff' => 'staff',
                 ])
                 ->required(),
 
